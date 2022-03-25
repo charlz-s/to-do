@@ -1,0 +1,13 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  color: whitesmoke;
+  background-color: cadetblue;
+  padding: 10px;
+  min-width: 100vw;
+  min-height: 100vh;
+}
