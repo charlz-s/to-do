@@ -52,7 +52,7 @@ function createNewTask(e){
    }
    
    // display "delete all tasks" button
-   if (newTask.children.length > 1) {
+   if (newTask.children.length >= 1) {
       taskList.appendChild(deleteAll)
    }
    
@@ -68,11 +68,16 @@ document.body.addEventListener("click", function(e){
 
       // delete the tasks
       for(i = e.target.previousSibling.children.length; i > 0; i-- ){
+         
          e.target.previousSibling.children[0].remove();
       }
 
       // remove the tasks heading
       e.target.previousSibling.previousSibling.remove();
+
+      // remove the div containing all the tasks
+      e.target.previousSibling.remove()
+
       
       // delete the "delete all" button
       e.target.remove();
@@ -82,8 +87,16 @@ document.body.addEventListener("click", function(e){
 
 // delete selected task
 document.body.addEventListener("click", function(e){
+   if(e.target.classList.contains('delete-task') && e.target.parentElement.parentElement.parentElement.children.length == 1) {
+
+      e.target.parentElement.parentElement.parentElement.previousSibling.remove()
+      e.target.parentElement.parentElement.parentElement.nextSibling.remove()
+      e.target.parentElement.parentElement.remove()
+      
+   }
+
    if(e.target.classList.contains('delete-task')) {
-      e.target.parentElement.remove()
+      e.target.parentElement.parentElement.remove()
    }
 });
 
