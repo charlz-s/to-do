@@ -8,7 +8,6 @@
 
 body {
    padding: 10px;
-   min-width: 100vw;
    min-height: 100vh;
    background-color: cadetblue;
    color: whitesmoke;
@@ -64,6 +63,8 @@ body {
    }
 
    #task-list {
+      position: relative;
+
       h3 {
          font-size: 1.25rem;
          margin-bottom: 10px;
@@ -101,6 +102,9 @@ body {
       }
 
       .deleteAll {
+         position: absolute;
+         top: -5px;
+         right: 0;
          padding: 7.5px 15px;
          font-size: 1rem;
          background-color: rgb(179, 11, 11);
@@ -110,15 +114,14 @@ body {
          outline: 0;
          cursor: pointer;
          border: 0;
-      
+         
          &:active {
             transform: scale(.95)
+         }
+
+         &:hover {
+            background-color: rgb(121, 14, 14);
          }
       }
    }
 }
-
-
-
-@import 'config';
-@import 'components';

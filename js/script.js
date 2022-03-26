@@ -13,17 +13,20 @@ let deleteAll = document.createElement("button")
 // set attributes
 newTask.id = "allTasks"
 deleteAll.className = "deleteAll"
-deleteAll.textContent = "Delete All Tasks"
+deleteAll.textContent = "Delete All"
 
 
 taskInput.style.height = 0
-taskInput.addEventListener('mouseover', function(e){
+
+// focus on the task input
+taskInput.addEventListener('mouseenter', function(){
    taskInput.style.height = '30px'
-
+   
    taskInput.focus();
-
-
 })
+
+// creates new task on submit
+inputForm.addEventListener('submit', createNewTask)
 
 // new creating task function
 function createNewTask(e){
@@ -40,7 +43,7 @@ function createNewTask(e){
       `
       taskHeading.innerHTML = "Tasks"
 
-      // attcch elements to the DOM
+      // attach elements to the DOM
       taskList.appendChild(taskHeading);
       taskList.appendChild(newTask);
 
@@ -49,17 +52,39 @@ function createNewTask(e){
    }
    
    // display "delete all tasks" button
-   if (newTask.children.length >= 1) {
+   if (newTask.children.length > 1) {
       taskList.appendChild(deleteAll)
    }
-
+   
    // prevent default form behaviour
    e.preventDefault()
 }
 
-// creates new task on submit
-inputForm.addEventListener('submit', createNewTask)
+
 
 // deletes all tasks
-// deleteAll.addEventListener("click", function(e){
-// })
+document.body.addEventListener("click", function(e){
+   if(e.target.classList.contains('deleteAll')) {
+
+      // delete the tasks
+      for(i = e.target.previousSibling.children.length; i > 0; i-- ){
+         e.target.previousSibling.children[0].remove();
+      }
+
+      // remove the tasks heading
+      e.target.previousSibling.previousSibling.remove();
+      
+      // delete the "delete all" button
+      e.target.remove();
+
+   }
+});
+
+// delete selected task
+document.body.addEventListener("click", function(e){
+   if(e.target.classList.contains('delete-task')) {
+      e.target.parentElement.remove()
+   }
+});
+
+
