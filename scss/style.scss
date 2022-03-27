@@ -14,6 +14,11 @@ body {
    font-family: 'Roboto', sans-serif;
 }
 
+input {
+   outline: 0;
+   border: 0;
+   cursor: pointer;
+}
 #card {
    width: 600px;
    margin: 40px auto 20px;
@@ -24,12 +29,6 @@ body {
 
    #input {
       margin-bottom: 40px;
-
-      div input {
-         outline: 0;
-         border: 0;
-         cursor: pointer;
-      }
 
       div:first-child {
          margin-bottom: 20px;
@@ -104,7 +103,7 @@ body {
       .deleteAll {
          position: absolute;
          top: -5px;
-         right: 0;
+         right: -3.5px;
          padding: 7.5px 15px;
          font-size: 1rem;
          background-color: rgb(179, 11, 11);
@@ -114,6 +113,8 @@ body {
          outline: 0;
          cursor: pointer;
          border: 0;
+
+         transform: scale(.9);
          
          &:active {
             transform: scale(.95)
@@ -124,4 +125,21 @@ body {
          }
       }
    }
+   
+   
+    #filter {
+       margin-bottom: 20px;
+      h3 {
+         font-size: .95rem;
+      }
+      
+      input {
+      padding-top: 10px;
+      background-color: transparent;
+      border-bottom: 1px solid black; 
+      font-size: 1.15rem;
+      transition: .085s ease-in-out;
+      caret-color: white;
+      }
+    }
 }

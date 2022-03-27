@@ -4,6 +4,7 @@ let inputForm = document.querySelector('#input')
 let taskInput = document.querySelector('.task-input')
 let taskSubmit = document.querySelector('.submit')
 let taskList = document.querySelector('#task-list')
+let filter = document.querySelector('.filter-tasks')
 
 // create elements
 let newTask = document.createElement('div')
@@ -15,20 +16,29 @@ newTask.id = "allTasks"
 deleteAll.className = "deleteAll"
 deleteAll.textContent = "Delete All"
 
-
+// css styling tweak
 taskInput.style.height = 0
+filter.style.height = 0
+filter.parentElement.style.display = "none"
 
-// focus on the task input
+// focus on the task input & set height
 taskInput.addEventListener('mouseenter', function(){
    taskInput.style.height = '30px'
    
    taskInput.focus();
 })
 
+// focus on the filter input & set height
+filter.addEventListener('mouseenter', () => {
+   filter.style.height = '30px'
+   
+   filter.focus();
+})
+
 // creates new task on submit
 inputForm.addEventListener('submit', createNewTask)
 
-// new creating task function
+//creating new task function
 function createNewTask(e){
    
    if (taskInput.value.length > 0) {
@@ -54,6 +64,14 @@ function createNewTask(e){
    // display "delete all tasks" button
    if (newTask.children.length >= 1) {
       taskList.appendChild(deleteAll)
+
+      deleteAll.style.display = "none"
+      
+   }
+   
+   if (newTask.children.length > 1) {
+      deleteAll.style.display = "block"
+      filter.parentElement.style.display = "block"
    }
    
    // prevent default form behaviour
@@ -66,32 +84,50 @@ function createNewTask(e){
 document.body.addEventListener("click", function(e){
    if(e.target.classList.contains('deleteAll')) {
 
-      // delete the tasks
-      for(i = e.target.previousSibling.children.length; i > 0; i-- ){
+      // // delete the all tasks
+      // for(i = e.target.previousSibling.children.length; i > 0; i-- ){
          
-         e.target.previousSibling.children[0].remove();
-      }
+      //    e.target.previousSibling.children[0].remove();
+      // }
 
-      // remove the tasks heading
-      e.target.previousSibling.previousSibling.remove();
+      // // remove the tasks heading
+      // e.target.previousSibling.previousSibling.remove();
 
-      // remove the div containing all the tasks
-      e.target.previousSibling.remove()
+      // // remove the div containing all the tasks
+      // e.target.previousSibling.remove()
 
       
-      // delete the "delete all" button
-      e.target.remove();
+      // // delete the "delete all" button
+      // e.target.remove();
+
+      // (faster) (best practice)
+      while(newTask.firstChild){
+         // remove the tasks heading
+         taskHeading.remove()
+         // delete the "delete all" button
+         deleteAll.remove()
+         // delete all the tasks
+         newTask.removeChild(newTask.firstChild)
+         // hide filter
+         filter.parentElement.style.display = "none"
+         
+      }
 
    }
 });
 
 // delete selected task
 document.body.addEventListener("click", function(e){
-   if(e.target.classList.contains('delete-task') && e.target.parentElement.parentElement.parentElement.children.length == 1) {
+   if(e.target.classList.contains('delete-task') && newTask.children.length == 1) {
+      // e.target.parentElement.parentElement.parentElement.previousSibling.remove()
+      // e.target.parentElement.parentElement.parentElement.nextSibling.remove()
 
-      e.target.parentElement.parentElement.parentElement.previousSibling.remove()
-      e.target.parentElement.parentElement.parentElement.nextSibling.remove()
+      // (best practice) instead of targeting parent-parent elements
+      deleteAll.remove()
+      taskHeading.remove()
       e.target.parentElement.parentElement.remove()
+      filter.parentElement.style.display = "none"
+
       
    }
 
@@ -101,3 +137,22 @@ document.body.addEventListener("click", function(e){
 });
 
 
+// filter through task 
+filter.addEventListener("keyup", (e) => {
+
+   // convert all text inputed in the filter input to lowercase
+   let filterText = e.target.value.toLowerCase()
+
+   document.querySelectorAll('.listDiv > p').forEach(function(text){
+
+      if(text.textContent.toLowerCase().indexOf(filterText) != -1){
+         text.style.display = "block"
+         deleteAll.style.display = "block"
+         taskHeading.style.display = "block"
+      }else {
+         text.style.display = "none"
+         deleteAll.style.display = "none"
+         taskHeading.style.display = "none"
+      }
+   })
+})
