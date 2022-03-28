@@ -6,6 +6,8 @@ let taskSubmit = document.querySelector('.submit')
 let taskList = document.querySelector('#task-list')
 let filter = document.querySelector('.filter-tasks')
 let clearFilter = document.querySelector('.clear-filter')
+let sort = document.querySelector('#sort > select')
+let sortAndFilter = document.querySelector('#card > section')
 
 // create elements
 let newTask = document.createElement('div')
@@ -20,11 +22,11 @@ deleteAll.textContent = "Delete All"
 // css styling tweak
 taskInput.style.height = 0
 filter.style.height = 0
-filter.parentElement.parentElement.style.display = "none"
+sortAndFilter.style.display = "none"
 clearFilter.style.display = "none"
 
 // focus on the task input & set height
-taskInput.addEventListener('mouseenter', function(){
+taskInput.addEventListener('mouseenter', () => {
    taskInput.style.height = '30px'
    taskInput.style.color = 'inherit'
    
@@ -35,7 +37,8 @@ taskInput.addEventListener('mouseenter', function(){
 
 // focus on the filter input & set height
 filter.addEventListener('mouseenter', () => {
-   filter.style.height = '30px'
+   filter.style.height = '20px'
+   filter.style.paddingTop = '5px'
    filter.style.color = 'inherit'
    
    // focus on the filter input
@@ -44,20 +47,20 @@ filter.addEventListener('mouseenter', () => {
    // close the task input & hide its value
    taskInput.style.height = 0
    taskInput.style.color = 'transparent'
-})
+});
 
 // creates new task on submit
-inputForm.addEventListener('submit', createNewTask)
+inputForm.addEventListener('submit', (e) => {
 
-//creating new task function
-function createNewTask(e){
-   
+   // creating new task function 
    if (taskInput.value.length > 0) {
+
       // set attributes on event
       newTask.innerHTML = `
-      <div class="listDiv">
+      <div class="listDiv uncompleted">
          <p>
-         ${taskInput.value} 
+         ${taskInput.value}
+         <span class= "task-complete">✔</span>
          <span class="delete-task">×</span>
          </p>
       </div> 
@@ -73,7 +76,7 @@ function createNewTask(e){
       taskInput.value = "";
    }
    
-   // display "delete all tasks" button
+   // append "delete all" button
    if (newTask.children.length >= 1) {
       taskHeading.appendChild(deleteAll)
 
@@ -81,19 +84,18 @@ function createNewTask(e){
       
    }
    
+   // display "delete all" button
    if (newTask.children.length > 1) {
       deleteAll.style.display = "block"
-      filter.parentElement.parentElement.style.display = "block"
+      sortAndFilter.style.display = "flex"
    }
-   
+
    // prevent default form behaviour
    e.preventDefault()
-}
-
-
+});
 
 // deletes all tasks
-document.body.addEventListener("click", function(e){
+document.body.addEventListener("click", (e) => {
    if(e.target.classList.contains('deleteAll')) {
 
       // // delete the all tasks
@@ -121,11 +123,11 @@ document.body.addEventListener("click", function(e){
          // delete all the tasks
          newTask.removeChild(newTask.firstChild)
          // hide filter
-         filter.parentElement.parentElement.style.display = "none"
+         sortAndFilter.style.display = "none"
          // clear filter value
          filter.value = '';
          // hide clear filter button
-         clearFilter.style.display = "none"   
+         clearFilter.style.display = "none"
          
       }
 
@@ -133,7 +135,7 @@ document.body.addEventListener("click", function(e){
 });
 
 // delete selected task
-document.body.addEventListener("click", function(e){
+document.body.addEventListener("click", (e) => {
    if(e.target.classList.contains('delete-task') && newTask.children.length == 1) {
       // e.target.parentElement.parentElement.parentElement.previousSibling.remove()
       // e.target.parentElement.parentElement.parentElement.nextSibling.remove()
@@ -141,10 +143,10 @@ document.body.addEventListener("click", function(e){
       // (best practice) instead of targeting parent-parent elements
       deleteAll.remove()
       taskHeading.remove()
-      filter.parentElement.parentElement.style.display = "none"
+      sortAndFilter.style.display = "none"
       e.target.parentElement.parentElement.remove()
       clearFilter.style.display = "none"   
-      filter.value = '';
+      filter.value = ''
 
       
    }
@@ -168,6 +170,7 @@ filter.addEventListener("keyup", (e) => {
       clearFilter.style.display = "none"   
    }
 
+   // filter through tasks with the filter input value
    document.querySelectorAll('.listDiv').forEach(function(text){
       if(text.textContent.toLowerCase().indexOf(filterText) != -1){
          text.style.display = "block"
@@ -178,7 +181,6 @@ filter.addEventListener("keyup", (e) => {
          deleteAll.style.display = "none"
          taskHeading.style.display = "none"
       }
-
       
       // clear filter
       clearFilter.addEventListener("click", () => {
@@ -203,3 +205,63 @@ filter.addEventListener("keyup", (e) => {
    
 })
 
+// mark tasks
+document.body.addEventListener('click', (e) => {
+
+   // if task is marked as complete
+   if (e.target.classList.contains('task-complete') && e.target.style.color == "green") {
+      e.target.style.color = "rgb(190, 216, 189)";
+      e.target.parentElement.style.textDecoration = "none"
+      e.target.parentElement.style.color = "inherit"
+
+      e.target.parentElement.parentElement.classList.remove('completed')
+      e.target.parentElement.parentElement.classList.add('uncompleted')
+   }
+   // if task hasn't been marked as complete
+   else if (e.target.classList.contains('task-complete')) {
+      e.target.style.color = "green" 
+      e.target.parentElement.style.textDecoration = "line-through"
+      e.target.parentElement.style.color = "rgb(104, 104, 104)"
+
+      e.target.parentElement.parentElement.classList.add('completed')
+      e.target.parentElement.parentElement.classList.remove('uncompleted')
+
+
+   }
+});
+
+// sort tasks
+sort.addEventListener('change', (e) => {
+   
+   let sortValue = e.target.value;
+
+   document.querySelectorAll('.listDiv').forEach((item) => {
+
+      item.style.display = "none"
+      
+      // display all task list items 
+      if (sortValue == 'all' && item.classList.contains('listDiv')) {
+         item.style.display = "block"
+      }
+
+      // display "not completed" list items
+      if (sortValue == 'uncompleted' && item.classList.contains('uncompleted')) {
+         item.style.display = "block"
+      }
+
+      // display "completed" list items
+      if (sortValue == 'completed' && item.classList.contains('completed')) {
+         item.style.display = "block"
+      }
+   
+   })
+
+   // for (let i = 0; newTask.children.length > i; i++) {
+
+   //    console.log(newTask.children[i])
+   //    if (newTask.children[i].classList.contains('completed')) {
+         
+   //    }
+   // }
+
+});
