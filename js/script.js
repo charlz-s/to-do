@@ -60,7 +60,8 @@ function createNewTask(e){
          ${taskInput.value} 
          <span class="delete-task">×</span>
          </p>
-      </div>
+      </div> 
+      ${newTask.innerHTML}
       `
       taskHeading.innerHTML = "Tasks"
 
