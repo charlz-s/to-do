@@ -190,6 +190,15 @@ filter.addEventListener("keyup", (e) => {
          taskHeading.style.display = "flex"
       })
 
+      // clear filter when a new task input is submitted
+      inputForm.addEventListener('submit', () => {
+         filter.value = '';
+         clearFilter.style.display = "none"
+         filter.style.height = 0
+         text.style.display = "block"
+         deleteAll.style.display = "initial"
+         taskHeading.style.display = "flex"
+      })
    })
    
 })

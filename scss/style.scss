@@ -167,6 +167,10 @@ input {
             &:active {
                transform: scale(.6);
             }
+            
+            &:hover {
+               color: rgb(146, 3, 3);
+            }
          }
       }
     }
