@@ -66,7 +66,12 @@ input {
 
       h3 {
          font-size: 1.25rem;
+         margin: 0;
          margin-bottom: 10px;
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+
       }
 
       .listDiv {
@@ -101,9 +106,9 @@ input {
       }
 
       .deleteAll {
-         position: absolute;
-         top: -5px;
-         right: -3.5px;
+         // position: absolute;
+         // top: -5px;
+         // right: -3.5px;
          padding: 7.5px 15px;
          font-size: 1rem;
          background-color: rgb(179, 11, 11);
@@ -114,7 +119,7 @@ input {
          cursor: pointer;
          border: 0;
 
-         transform: scale(.9);
+         transform: scale(.9) translateX(5px);
          
          &:active {
             transform: scale(.95)
@@ -128,7 +133,8 @@ input {
    
    
     #filter {
-       margin-bottom: 20px;
+      margin-bottom: 20px;
+
       h3 {
          font-size: .95rem;
       }
@@ -136,10 +142,32 @@ input {
       input {
       padding-top: 10px;
       background-color: transparent;
+      padding-right: 20px;
       border-bottom: 1px solid black; 
       font-size: 1.15rem;
       transition: .085s ease-in-out;
       caret-color: white;
+      width: 200px;
+      }
+
+      div {
+         position: relative;
+         width: fit-content;
+         
+         span {
+            top: 3.5px;
+            right: 0;
+            color: red;
+            cursor: pointer;
+            font-size: 30.5px;
+            font-family: Arial, Helvetica, sans-serif;
+            position: absolute;
+            transition: .2s ease-in-out;
+
+            &:active {
+               transform: scale(.6);
+            }
+         }
       }
     }
 }

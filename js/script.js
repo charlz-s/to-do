@@ -5,6 +5,7 @@ let taskInput = document.querySelector('.task-input')
 let taskSubmit = document.querySelector('.submit')
 let taskList = document.querySelector('#task-list')
 let filter = document.querySelector('.filter-tasks')
+let clearFilter = document.querySelector('.clear-filter')
 
 // create elements
 let newTask = document.createElement('div')
@@ -19,20 +20,30 @@ deleteAll.textContent = "Delete All"
 // css styling tweak
 taskInput.style.height = 0
 filter.style.height = 0
-filter.parentElement.style.display = "none"
+filter.parentElement.parentElement.style.display = "none"
+clearFilter.style.display = "none"
 
 // focus on the task input & set height
 taskInput.addEventListener('mouseenter', function(){
    taskInput.style.height = '30px'
+   taskInput.style.color = 'inherit'
    
+   // focus on the task input
    taskInput.focus();
+
 })
 
 // focus on the filter input & set height
 filter.addEventListener('mouseenter', () => {
    filter.style.height = '30px'
+   filter.style.color = 'inherit'
    
+   // focus on the filter input
    filter.focus();
+   
+   // close the task input & hide its value
+   taskInput.style.height = 0
+   taskInput.style.color = 'transparent'
 })
 
 // creates new task on submit
@@ -43,7 +54,7 @@ function createNewTask(e){
    
    if (taskInput.value.length > 0) {
       // set attributes on event
-      newTask.innerHTML += `
+      newTask.innerHTML = `
       <div class="listDiv">
          <p>
          ${taskInput.value} 
@@ -63,7 +74,7 @@ function createNewTask(e){
    
    // display "delete all tasks" button
    if (newTask.children.length >= 1) {
-      taskList.appendChild(deleteAll)
+      taskHeading.appendChild(deleteAll)
 
       deleteAll.style.display = "none"
       
@@ -71,7 +82,7 @@ function createNewTask(e){
    
    if (newTask.children.length > 1) {
       deleteAll.style.display = "block"
-      filter.parentElement.style.display = "block"
+      filter.parentElement.parentElement.style.display = "block"
    }
    
    // prevent default form behaviour
@@ -109,7 +120,11 @@ document.body.addEventListener("click", function(e){
          // delete all the tasks
          newTask.removeChild(newTask.firstChild)
          // hide filter
-         filter.parentElement.style.display = "none"
+         filter.parentElement.parentElement.style.display = "none"
+         // clear filter value
+         filter.value = '';
+         // hide clear filter button
+         clearFilter.style.display = "none"   
          
       }
 
@@ -125,8 +140,10 @@ document.body.addEventListener("click", function(e){
       // (best practice) instead of targeting parent-parent elements
       deleteAll.remove()
       taskHeading.remove()
+      filter.parentElement.parentElement.style.display = "none"
       e.target.parentElement.parentElement.remove()
-      filter.parentElement.style.display = "none"
+      clearFilter.style.display = "none"   
+      filter.value = '';
 
       
    }
@@ -143,16 +160,36 @@ filter.addEventListener("keyup", (e) => {
    // convert all text inputed in the filter input to lowercase
    let filterText = e.target.value.toLowerCase()
 
-   document.querySelectorAll('.listDiv > p').forEach(function(text){
+   // show and hide clear filter button
+   if (e.target.value.length >= 1) {
+      clearFilter.style.display = "block"
+   } else {
+      clearFilter.style.display = "none"   
+   }
 
+   document.querySelectorAll('.listDiv').forEach(function(text){
       if(text.textContent.toLowerCase().indexOf(filterText) != -1){
          text.style.display = "block"
-         deleteAll.style.display = "block"
-         taskHeading.style.display = "block"
-      }else {
+         taskHeading.style.display = "flex"
+         deleteAll.style.display = "initial"
+      } else {
          text.style.display = "none"
          deleteAll.style.display = "none"
          taskHeading.style.display = "none"
       }
+
+      
+      // clear filter
+      clearFilter.addEventListener("click", () => {
+         text.style.display = "block"
+         filter.value = '';
+         clearFilter.style.display = "none"
+         
+         deleteAll.style.display = "initial"
+         taskHeading.style.display = "flex"
+      })
+
    })
+   
 })
+
