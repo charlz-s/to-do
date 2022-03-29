@@ -1,0 +1,17 @@
+@media screen and (max-width: 675px) {
+   #card {
+      width: 90%;
+   }
+}
+
+@media screen and (max-width: 475px) {
+   #card {
+      & > section {
+         display: block;
+      }
+
+      #filter {
+         margin-bottom: 10px;
+      }
+   }
+}
