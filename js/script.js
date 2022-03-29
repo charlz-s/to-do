@@ -1,4 +1,5 @@
 // from the DOM
+let body = document.querySelector('body')
 let card = document.querySelector('#card')
 let inputForm = document.querySelector('#input')
 let taskInput = document.querySelector('.task-input')
@@ -24,6 +25,46 @@ taskInput.style.height = 0
 filter.style.height = 0
 sortAndFilter.style.display = "none"
 clearFilter.style.display = "none"
+
+
+// create a pop-up card, to confirm delete
+// create pop-up element
+let popUp = document.createElement('section')
+popUp.classList.add('popup')
+
+//pop-up main div
+let popUpMain = document.createElement('div') 
+popUpMain.classList.add('main-popUp')
+
+// cancel button
+popUpMain.innerHTML = "<span>×</span>"
+
+// pop-up card heading 
+let popUpHeading = document.createElement('p')
+
+// pop-up card buttons div
+let popUpConfirm = document.createElement('div')
+popUpConfirm.innerHTML = `
+   <button class="popUpCancel">Cancel</button>
+   <button class="popUpDelete">Delete</button>
+`
+
+// apppend heading and buttons div to pop-up main div
+popUpMain.appendChild(popUpHeading)
+popUpMain.appendChild(popUpConfirm)
+
+// append pop-up main div to pop-up element
+popUp.appendChild(popUpMain)
+
+// append pop-up element to body tag
+document.body.appendChild(popUp)
+popUp.style.display = "none"
+
+// pop-up buttons
+let popUpDelete = document.querySelector('.popUpDelete')
+let popUpCancel = document.querySelector('.popUpCancel')
+let popUpExit = document.querySelector('.main-popUp > span')
+
 
 // focus on the task input & set height
 taskInput.addEventListener('mouseenter', () => {
@@ -87,7 +128,7 @@ inputForm.addEventListener('submit', (e) => {
    // display "delete all" button
    if (newTask.children.length > 1) {
       deleteAll.style.display = "block"
-      sortAndFilter.style.display = "flex"
+      sortAndFilter.style.display = ""
    }
 
    // prevent default form behaviour
@@ -115,21 +156,43 @@ document.body.addEventListener("click", (e) => {
       // e.target.remove();
 
       // (faster) (best practice)
-      while(newTask.firstChild){
-         // remove the tasks heading
-         taskHeading.remove()
-         // delete the "delete all" button
-         deleteAll.remove()
-         // delete all the tasks
-         newTask.removeChild(newTask.firstChild)
-         // hide filter
-         sortAndFilter.style.display = "none"
-         // clear filter value
-         filter.value = '';
-         // hide clear filter button
-         clearFilter.style.display = "none"
-         
-      }
+      popUp.style.display = "block"
+      popUpHeading.textContent = "Are you sure you want to delete all tasks?"
+      body.style.overflowY = "hidden"
+      
+      // remove pop-up and delete all tasks
+      popUpDelete.addEventListener('click', () => {
+         popUp.style.display = "none"
+         body.style.overflowY = "auto"
+
+         while(newTask.firstChild){
+            // remove the tasks heading
+            taskHeading.remove()
+            // delete the "delete all" button
+            deleteAll.remove()
+            // delete all the tasks
+            newTask.removeChild(newTask.firstChild)
+            // hide filter
+            sortAndFilter.style.display = "none"
+            // clear filter value
+            filter.value = '';
+            // hide clear filter button
+            clearFilter.style.display = "none"
+            
+         }
+      })
+
+      // remove pop-up
+      popUpCancel.addEventListener('click', () => {
+         popUp.style.display = "none"
+         body.style.overflowY = "auto"
+      })
+
+      // remove pop-up
+      popUpExit.addEventListener('click', () => {
+         popUp.style.display = "none"
+         body.style.overflowY = "auto"
+      })
 
    }
 });
@@ -152,7 +215,29 @@ document.body.addEventListener("click", (e) => {
    }
 
    if(e.target.classList.contains('delete-task')) {
-      e.target.parentElement.parentElement.remove()
+      popUp.style.display = "block"
+      popUpHeading.textContent = "Are you sure you want to delete task?"
+      body.style.overflowY = "hidden"
+
+      // remove pop-up and delete selected task
+      popUpDelete.addEventListener('click', () => {
+         popUp.style.display = "none"
+         body.style.overflowY = "auto"
+
+         e.target.parentElement.parentElement.remove()
+      })
+
+      // remove pop-up
+      popUpCancel.addEventListener('click', () => {
+         popUp.style.display = "none"
+         body.style.overflowY = "auto"
+      })
+
+      // remove pop-up
+      popUpExit.addEventListener('click', () => {
+         popUp.style.display = "none"
+         body.style.overflowY = "auto"
+      })
    }
 });
 

@@ -7,8 +7,7 @@
 }
 
 body {
-   padding: 10px;
-   min-height: 100vh;
+   height: 100%;
    background-color: cadetblue;
    color: whitesmoke;
    font-family: 'Roboto', sans-serif;
@@ -225,3 +224,83 @@ input {
       }
    }
 }
+
+// pop-up card
+.popup {
+   background-color: rgba(0, 0, 0, 0.473);
+   color: black;
+   padding: 50px;
+   position: fixed;
+   width: 100%;
+   height: 100%;
+   top: 0;
+
+   .main-popUp {
+      width: 450px;
+      padding: 40px 20px;
+      background-color: rgba(255, 255, 255, 0.87);
+      border-radius: 10px;
+      margin: 0 auto;
+      margin-top: 30vh;
+      position: relative;
+
+
+      span {
+         position: absolute;
+         top: 5px;
+         transition: .2s ease-in-out;
+         right: 10px;
+         color: red;
+         cursor: pointer;
+         font-size: 22.5px;
+         font-weight: bolder;
+         font-family: Arial, Helvetica, sans-serif;
+
+         &:hover {
+            color: rgb(182, 20, 20);
+         }
+
+         &:active {
+            transform: scale(.65);
+         }
+      }
+
+      P {
+         text-align: center;
+      }
+
+      & > div {
+         margin: 0 20px;
+         margin-top: 15px;
+         text-align: center;
+         
+         button {
+            padding: 7.5px 15px;
+            font-size: 1rem;
+            background-color: rgb(255, 255, 255);
+            border-radius: 5px;
+            outline: 0;
+            border: 0;
+            transition: .1s ease-in-out;
+            cursor: pointer;
+            
+            &:active {
+               transform: scale(.95)
+            }
+
+            &:last-child {
+               background-color: rgb(179, 11, 11);
+               color: white;
+               border: 1px solid rgb(179, 11, 11);
+               margin-left: 10px;
+            }
+
+            &:first-child {
+               border: 1px solid black;
+            }
+         }
+      }
+   }
+}
+
+@import 'media';
