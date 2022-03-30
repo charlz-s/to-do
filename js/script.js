@@ -200,17 +200,31 @@ document.body.addEventListener("click", (e) => {
 // delete selected task
 document.body.addEventListener("click", (e) => {
    if(e.target.classList.contains('delete-task') && newTask.children.length == 1) {
-      // e.target.parentElement.parentElement.parentElement.previousSibling.remove()
-      // e.target.parentElement.parentElement.parentElement.nextSibling.remove()
+      
+      // remove pop-up and the last remaining task
+      popUpDelete.addEventListener('click', () => {
+         popUp.style.display = "none"
+         body.style.overflowY = "auto"
+         
+         deleteAll.remove()
+         taskHeading.remove()
+         sortAndFilter.style.display = "none"
+         e.target.parentElement.parentElement.remove()
+         clearFilter.style.display = "none"   
+         filter.value = ''
+      })
 
-      // (best practice) instead of targeting parent-parent elements
-      deleteAll.remove()
-      taskHeading.remove()
-      sortAndFilter.style.display = "none"
-      e.target.parentElement.parentElement.remove()
-      clearFilter.style.display = "none"   
-      filter.value = ''
+      // remove pop-up
+      popUpCancel.addEventListener('click', () => {
+         popUp.style.display = "none"
+         body.style.overflowY = "auto"
+      })
 
+      // remove pop-up
+      popUpExit.addEventListener('click', () => {
+         popUp.style.display = "none"
+         body.style.overflowY = "auto"
+      })
       
    }
 
