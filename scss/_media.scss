@@ -2,6 +2,12 @@
    #card {
       width: 90%;
    }
+
+   .popup {
+      .main-popUp {
+         width: 100%;
+      }
+   }
 }
 
 @media screen and (max-width: 475px) {
@@ -12,6 +18,61 @@
 
       #filter {
          margin-bottom: 10px;
+      }
+   }
+}
+
+@media screen and (max-width: 360px) {
+   .popup {
+      .main-popUp > div {
+         display: grid;
+
+         button:last-child {
+            order: 1;
+            margin: 0;
+            margin-bottom: 8.5px;
+         }
+
+         button:first-child {
+            order: 2;
+         }
+      }
+   }
+}
+
+
+@media screen and (max-width: 265px) {
+   #card {
+      padding-bottom: 40px;
+
+      #task-list h3 {
+         display: block;
+      }
+
+      #task-list .deleteAll {
+         margin-top: 5px;
+         transform: translateX(-10px) scale(.8);
+         
+         position: absolute;
+         bottom: -40px;
+         z-index: 1;
+      }
+
+      #filter {
+         input {
+            width: 100%;
+         }
+      }
+   }
+
+   .popup {
+      .main-popUp > div {
+         margin: 0;
+         margin-top: 10px;
+
+         button {
+            padding: 5px 10px;
+         }
       }
    }
 }

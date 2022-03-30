@@ -157,7 +157,7 @@ document.body.addEventListener("click", (e) => {
 
       // (faster) (best practice)
       popUp.style.display = "block"
-      popUpHeading.textContent = "Are you sure you want to delete all tasks?"
+      popUpHeading.textContent = "are you sure you want to delete all tasks?"
       body.style.overflowY = "hidden"
       
       // remove pop-up and delete all tasks
@@ -216,7 +216,7 @@ document.body.addEventListener("click", (e) => {
 
    if(e.target.classList.contains('delete-task')) {
       popUp.style.display = "block"
-      popUpHeading.textContent = "Are you sure you want to delete task?"
+      popUpHeading.textContent = "are you sure you want to delete task?"
       body.style.overflowY = "hidden"
 
       // remove pop-up and delete selected task
