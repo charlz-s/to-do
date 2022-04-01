@@ -162,9 +162,10 @@ document.body.addEventListener("click", (e) => {
       
       // remove pop-up and delete all tasks
       popUpDelete.addEventListener('click', () => {
+         
          popUp.style.display = "none"
          body.style.overflowY = "auto"
-
+         
          while(newTask.firstChild){
             // remove the tasks heading
             taskHeading.remove()
@@ -178,17 +179,15 @@ document.body.addEventListener("click", (e) => {
             filter.value = '';
             // hide clear filter button
             clearFilter.style.display = "none"
-            
          }
       })
 
-      // remove pop-up
+      // remove pop-up w/o deleting tasks
       popUpCancel.addEventListener('click', () => {
          popUp.style.display = "none"
          body.style.overflowY = "auto"
       })
 
-      // remove pop-up
       popUpExit.addEventListener('click', () => {
          popUp.style.display = "none"
          body.style.overflowY = "auto"
@@ -214,13 +213,12 @@ document.body.addEventListener("click", (e) => {
          filter.value = ''
       })
 
-      // remove pop-up
+      // remove pop-up w/o deleting task
       popUpCancel.addEventListener('click', () => {
          popUp.style.display = "none"
          body.style.overflowY = "auto"
       })
 
-      // remove pop-up
       popUpExit.addEventListener('click', () => {
          popUp.style.display = "none"
          body.style.overflowY = "auto"
@@ -233,6 +231,7 @@ document.body.addEventListener("click", (e) => {
       popUpHeading.textContent = "are you sure you want to delete task?"
       body.style.overflowY = "hidden"
 
+      console.log(e.target.parentElement.parentElement)
       // remove pop-up and delete selected task
       popUpDelete.addEventListener('click', () => {
          popUp.style.display = "none"
