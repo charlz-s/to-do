@@ -66,6 +66,8 @@
    }
 
    .popup {
+      z-index: 5;
+      
       .main-popUp > div {
          margin: 0;
          margin-top: 10px;

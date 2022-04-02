@@ -135,7 +135,7 @@ inputForm.addEventListener('submit', (e) => {
    e.preventDefault()
 });
 
-// deletes all tasks
+// delete all tasks
 document.body.addEventListener("click", (e) => {
    if(e.target.classList.contains('deleteAll')) {
 
@@ -201,9 +201,9 @@ document.body.addEventListener("click", (e) => {
    if(e.target.classList.contains('delete-task') && newTask.children.length == 1) {
       
       // remove pop-up and the last remaining task
-      popUpDelete.addEventListener('click', () => {
-         popUp.style.display = "none"
-         body.style.overflowY = "auto"
+      // popUpDelete.addEventListener('click', () => {
+         // popUp.style.display = "none"
+         // body.style.overflowY = "auto"
          
          deleteAll.remove()
          taskHeading.remove()
@@ -211,46 +211,46 @@ document.body.addEventListener("click", (e) => {
          e.target.parentElement.parentElement.remove()
          clearFilter.style.display = "none"   
          filter.value = ''
-      })
+      // })
 
       // remove pop-up w/o deleting task
-      popUpCancel.addEventListener('click', () => {
-         popUp.style.display = "none"
-         body.style.overflowY = "auto"
-      })
+      // popUpCancel.addEventListener('click', () => {
+      //    popUp.style.display = "none"
+      //    body.style.overflowY = "auto"
+      // })
 
-      popUpExit.addEventListener('click', () => {
-         popUp.style.display = "none"
-         body.style.overflowY = "auto"
-      })
+      // popUpExit.addEventListener('click', () => {
+      //    popUp.style.display = "none"
+      //    body.style.overflowY = "auto"
+      // })
       
    }
 
    if(e.target.classList.contains('delete-task')) {
-      popUp.style.display = "block"
-      popUpHeading.textContent = "are you sure you want to delete task?"
-      body.style.overflowY = "hidden"
+      // popUp.style.display = "block"
+      // popUpHeading.textContent = "are you sure you want to delete task?"
+      // body.style.overflowY = "hidden"
 
-      console.log(e.target.parentElement.parentElement)
+      // console.log(e.target.parentElement.parentElement)
       // remove pop-up and delete selected task
-      popUpDelete.addEventListener('click', () => {
-         popUp.style.display = "none"
-         body.style.overflowY = "auto"
+      // popUpDelete.addEventListener('click', () => {
+      //    popUp.style.display = "none"
+      //    body.style.overflowY = "auto"
 
          e.target.parentElement.parentElement.remove()
-      })
+      // })
 
-      // remove pop-up
-      popUpCancel.addEventListener('click', () => {
-         popUp.style.display = "none"
-         body.style.overflowY = "auto"
-      })
+   //    // remove pop-up
+   //    popUpCancel.addEventListener('click', () => {
+   //       popUp.style.display = "none"
+   //       body.style.overflowY = "auto"
+   //    })
 
-      // remove pop-up
-      popUpExit.addEventListener('click', () => {
-         popUp.style.display = "none"
-         body.style.overflowY = "auto"
-      })
+   //    // remove pop-up
+   //    popUpExit.addEventListener('click', () => {
+   //       popUp.style.display = "none"
+   //       body.style.overflowY = "auto"
+   //    })
    }
 });
 
@@ -330,9 +330,9 @@ document.body.addEventListener('click', (e) => {
 
 // sort tasks
 sort.addEventListener('change', (e) => {
-   
-   let sortValue = e.target.value;
 
+   let sortValue = e.target.value;
+   
    document.querySelectorAll('.listDiv').forEach((item) => {
 
       item.style.display = "none"
