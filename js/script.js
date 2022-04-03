@@ -15,18 +15,6 @@ let newTask = document.createElement('div')
 let taskHeading = document.createElement('h3')
 let deleteAll = document.createElement("button")
 
-
-// let taskComplete = document.createElement("span")
-// taskComplete.className = "task-complete"
-// taskComplete.innerHTML = "✔"
-
-// let deleteTask = document.createElement("span")
-// deleteTask.className = "delete-task"
-// deleteTask.innerHTML = "×"
-
-// console.log(taskComplete)
-// console.log(deleteTask)
-
 // set attributes
 newTask.id = "allTasks"
 deleteAll.className = "deleteAll"
@@ -37,7 +25,6 @@ taskInput.style.height = 0
 filter.style.height = 0
 sortAndFilter.style.display = "none"
 clearFilter.style.display = "none"
-
 
 // create a pop-up card, to confirm delete
 // create pop-up element
@@ -124,9 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
          </p>
       </div> 
       ${newTask.innerHTML}
-      ` 
-      // newTask.appendChild(taskComplete)
-      // newTask.appendChild(deleteTask)
+      `
 
       taskHeading.innerHTML = "Tasks"
 
@@ -216,23 +201,6 @@ function storeTaskInLS(task) {
 document.body.addEventListener("click", (e) => {
    if(e.target.classList.contains('deleteAll')) {
 
-      // // delete the all tasks
-      // for(i = e.target.previousSibling.children.length; i > 0; i-- ){
-         
-      //    e.target.previousSibling.children[0].remove();
-      // }
-
-      // // remove the tasks heading
-      // e.target.previousSibling.previousSibling.remove();
-
-      // // remove the div containing all the tasks
-      // e.target.previousSibling.remove()
-
-      
-      // // delete the "delete all" button
-      // e.target.remove();
-
-      // (faster) (best practice)
       popUp.style.display = "block"
       popUpHeading.textContent = "are you sure you want to delete all tasks?"
       body.style.overflowY = "hidden"
@@ -283,11 +251,6 @@ function deleteAllTasksFromLocalStorage(){
 // delete selected task
 document.body.addEventListener("click", (e) => {
    if(e.target.classList.contains('delete-task') && newTask.children.length == 1) {
-      
-      // remove pop-up and the last remaining task
-      // popUpDelete.addEventListener('click', () => {
-         // popUp.style.display = "none"
-         // body.style.overflowY = "auto"
          
          deleteAll.remove()
          taskHeading.remove()
@@ -295,18 +258,6 @@ document.body.addEventListener("click", (e) => {
          e.target.parentElement.parentElement.remove()
          clearFilter.style.display = "none"   
          filter.value = ''
-      // })
-
-      // remove pop-up w/o deleting task
-      // popUpCancel.addEventListener('click', () => {
-      //    popUp.style.display = "none"
-      //    body.style.overflowY = "auto"
-      // })
-
-      // popUpExit.addEventListener('click', () => {
-      //    popUp.style.display = "none"
-      //    body.style.overflowY = "auto"
-      // })
       
    }
 
@@ -320,33 +271,11 @@ document.body.addEventListener("click", (e) => {
 
 
    if(e.target.classList.contains('delete-task')) {
-      // popUp.style.display = "block"
-      // popUpHeading.textContent = "are you sure you want to delete task?"
-      // body.style.overflowY = "hidden"
 
-      // console.log(e.target.parentElement.parentElement)
-      // remove pop-up and delete selected task
-      // popUpDelete.addEventListener('click', () => {
-      //    popUp.style.display = "none"
-      //    body.style.overflowY = "auto"
+      e.target.parentElement.parentElement.remove()
 
-         e.target.parentElement.parentElement.remove()
+      deleteTaskFromLS(e.target.parentElement.parentElement)
 
-         deleteTaskFromLS(e.target.parentElement.parentElement)
-
-      // })
-
-   //    // remove pop-up
-   //    popUpCancel.addEventListener('click', () => {
-   //       popUp.style.display = "none"
-   //       body.style.overflowY = "auto"
-   //    })
-
-   //    // remove pop-up
-   //    popUpExit.addEventListener('click', () => {
-   //       popUp.style.display = "none"
-   //       body.style.overflowY = "auto"
-   //    })
    }
 });
 
