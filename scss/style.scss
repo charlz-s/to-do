@@ -147,7 +147,6 @@ input {
          outline: 0;
          cursor: pointer;
          border: 0;
-         border: 1px solid black;
 
          transform: scale(.9) translateX(5px);
          
@@ -296,9 +295,8 @@ input {
 
             &:last-child {
                background-color: rgb(179, 11, 11);
+               border: 1px solid rgb(179, 11, 11);
                color: white;
-               // border: 1px solid rgb(179, 11, 11);
-               border: 1px solid black;
                margin-left: 10px;
             }
 

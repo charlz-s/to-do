@@ -15,6 +15,18 @@ let newTask = document.createElement('div')
 let taskHeading = document.createElement('h3')
 let deleteAll = document.createElement("button")
 
+
+// let taskComplete = document.createElement("span")
+// taskComplete.className = "task-complete"
+// taskComplete.innerHTML = "✔"
+
+// let deleteTask = document.createElement("span")
+// deleteTask.className = "delete-task"
+// deleteTask.innerHTML = "×"
+
+// console.log(taskComplete)
+// console.log(deleteTask)
+
 // set attributes
 newTask.id = "allTasks"
 deleteAll.className = "deleteAll"
@@ -90,6 +102,53 @@ filter.addEventListener('mouseenter', () => {
    taskInput.style.color = 'transparent'
 });
 
+// get tasks from local Storage when page is loaded
+document.addEventListener('DOMContentLoaded', () => {
+   let tasksInLS; // tasks in local storage
+
+   if (localStorage.getItem('tasks') === null) {
+      tasksInLS = []
+   } else {
+      tasksInLS = JSON.parse(localStorage.getItem('tasks'))
+   }
+
+   // loop through tasks in local storage
+   tasksInLS.forEach(function(taskFromLS){
+      // create task elements from items in the local storage
+      newTask.innerHTML = `
+      <div class="listDiv uncompleted">
+         <p>
+         ${taskFromLS}
+         <span class= "task-complete">✔</span>
+         <span class="delete-task">×</span>
+         </p>
+      </div> 
+      ${newTask.innerHTML}
+      ` 
+      // newTask.appendChild(taskComplete)
+      // newTask.appendChild(deleteTask)
+
+      taskHeading.innerHTML = "Tasks"
+
+      // attach elements to the DOM
+      taskList.appendChild(taskHeading);
+      taskList.appendChild(newTask);
+      
+      // append "delete all" button
+      if (newTask.children.length >= 1) {
+         taskHeading.appendChild(deleteAll)
+
+         deleteAll.style.display = "none"
+      }
+      
+      // display "delete all" button
+      if (newTask.children.length > 1) {
+         deleteAll.style.display = "block"
+         sortAndFilter.style.display = ""
+      }
+   })
+})
+
 // creates new task on submit
 inputForm.addEventListener('submit', (e) => {
 
@@ -113,6 +172,9 @@ inputForm.addEventListener('submit', (e) => {
       taskList.appendChild(taskHeading);
       taskList.appendChild(newTask);
 
+      // store task in local storage
+      storeTaskInLS(taskInput.value)
+         
       // reset task input value 
       taskInput.value = "";
    }
@@ -134,6 +196,21 @@ inputForm.addEventListener('submit', (e) => {
    // prevent default form behaviour
    e.preventDefault()
 });
+
+// store task function 
+function storeTaskInLS(task) {
+   let tasksInLS; // tasks in local storage
+
+   if (localStorage.getItem('tasks') === null) {
+      tasksInLS = []
+   } else {
+      tasksInLS = JSON.parse(localStorage.getItem('tasks'))
+   }
+
+   tasksInLS.push(task)
+
+   localStorage.setItem('tasks', JSON.stringify(tasksInLS))
+}
 
 // delete all tasks
 document.body.addEventListener("click", (e) => {
@@ -180,6 +257,8 @@ document.body.addEventListener("click", (e) => {
             // hide clear filter button
             clearFilter.style.display = "none"
          }
+         
+         deleteAllTasksFromLocalStorage()
       })
 
       // remove pop-up w/o deleting tasks
@@ -195,6 +274,11 @@ document.body.addEventListener("click", (e) => {
 
    }
 });
+
+// delete all tasks from local storage
+function deleteAllTasksFromLocalStorage(){
+   localStorage.clear()
+}
 
 // delete selected task
 document.body.addEventListener("click", (e) => {
@@ -226,6 +310,15 @@ document.body.addEventListener("click", (e) => {
       
    }
 
+   if(e.target.classList.contains('delete-task') && newTask.children.length == 2) {
+      deleteAll.remove()
+      sortAndFilter.style.display = "none"
+      e.target.parentElement.parentElement.remove()
+      clearFilter.style.display = "none"   
+      filter.value = ''
+   }
+
+
    if(e.target.classList.contains('delete-task')) {
       // popUp.style.display = "block"
       // popUpHeading.textContent = "are you sure you want to delete task?"
@@ -238,6 +331,9 @@ document.body.addEventListener("click", (e) => {
       //    body.style.overflowY = "auto"
 
          e.target.parentElement.parentElement.remove()
+
+         deleteTaskFromLS(e.target.parentElement.parentElement)
+
       // })
 
    //    // remove pop-up
@@ -253,6 +349,28 @@ document.body.addEventListener("click", (e) => {
    //    })
    }
 });
+
+// delete selected task from local storage
+function deleteTaskFromLS(tasks){
+   let tasksInLS;
+
+   if (localStorage.getItem('tasks') === null) {
+      tasksInLS = []
+   } else {
+      tasksInLS = JSON.parse(localStorage.getItem('tasks'))
+   }
+
+   tasksInLS.forEach(function(tasksContent, index){
+
+      if (tasks.textContent.includes(tasksContent) == true) {
+         tasksInLS.splice(index, 1)
+      }
+
+
+      localStorage.setItem('tasks', JSON.stringify(tasksInLS))
+   })
+
+}
 
 
 // filter through task 
@@ -289,7 +407,7 @@ filter.addEventListener("keyup", (e) => {
          deleteAll.style.display = "initial"
          taskHeading.style.display = "flex"
       })
-
+      
       // clear filter when a new task input is submitted
       inputForm.addEventListener('submit', () => {
          filter.value = '';
@@ -305,6 +423,8 @@ filter.addEventListener("keyup", (e) => {
 
 // mark tasks
 document.body.addEventListener('click', (e) => {
+   let tasksInLS; // tasks in local storage
+   tasksInLS = JSON.parse(localStorage.getItem('tasks'))
 
    // if task is marked as complete
    if (e.target.classList.contains('task-complete') && e.target.style.color == "green") {
@@ -323,16 +443,17 @@ document.body.addEventListener('click', (e) => {
 
       e.target.parentElement.parentElement.classList.add('completed')
       e.target.parentElement.parentElement.classList.remove('uncompleted')
-
-
    }
+
+
+   localStorage.setItem('tasks', JSON.stringify(tasksInLS))   
 });
 
 // sort tasks
 sort.addEventListener('change', (e) => {
 
    let sortValue = e.target.value;
-   
+
    document.querySelectorAll('.listDiv').forEach((item) => {
 
       item.style.display = "none"
