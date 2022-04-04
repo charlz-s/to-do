@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
    let tasksInLS; // tasks in local storage
 
    if (localStorage.getItem('tasks') === null) {
-      tasksInLS = []
+      tasksInLS = [];
    } else {
       tasksInLS = JSON.parse(localStorage.getItem('tasks'))
    }
@@ -245,7 +245,7 @@ document.body.addEventListener("click", (e) => {
 
 // delete all tasks from local storage
 function deleteAllTasksFromLocalStorage(){
-   localStorage.clear()
+   localStorage.removeItem('tasks')
 }
 
 // delete selected task
@@ -352,9 +352,6 @@ filter.addEventListener("keyup", (e) => {
 
 // mark tasks
 document.body.addEventListener('click', (e) => {
-   let tasksInLS; // tasks in local storage
-   tasksInLS = JSON.parse(localStorage.getItem('tasks'))
-
    // if task is marked as complete
    if (e.target.classList.contains('task-complete') && e.target.style.color == "green") {
       e.target.style.color = "rgb(190, 216, 189)";
@@ -373,9 +370,6 @@ document.body.addEventListener('click', (e) => {
       e.target.parentElement.parentElement.classList.add('completed')
       e.target.parentElement.parentElement.classList.remove('uncompleted')
    }
-
-
-   localStorage.setItem('tasks', JSON.stringify(tasksInLS))   
 });
 
 // sort tasks
